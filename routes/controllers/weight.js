@@ -1,3 +1,5 @@
+const Weight = require("./models/weight");
+
 exports.createWeight = (request, response) => {
   try {
     response.status(200).json({
@@ -12,11 +14,13 @@ exports.createWeight = (request, response) => {
   }
 };
 
-exports.getWeight = (request, response) => {
+exports.getWeight = async (request, response) => {
   try {
+    const data = await Weight.find({}, { __v: 0 });
+
     response.status(200).json({
       status: "success",
-      data: null,
+      data: data,
     });
   } catch (error) {
     response.status(404).json({
