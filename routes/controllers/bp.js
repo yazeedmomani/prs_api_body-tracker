@@ -1,10 +1,17 @@
 const BP = require("./models/bp.js");
 
-exports.createBP = (request, response) => {
+exports.createBP = async (request, response) => {
   try {
+    const data = await BP.create({
+      date: request.body.date,
+      time: request.body.time,
+      high: request.body.high,
+      low: request.body.low,
+    });
+
     response.status(200).json({
       status: "success",
-      data: null,
+      data: data,
     });
   } catch (error) {
     response.status(404).json({
@@ -30,8 +37,10 @@ exports.getBP = async (request, response) => {
   }
 };
 
-exports.deleteBP = (request, response) => {
+exports.deleteBP = async (request, response) => {
   try {
+    await BP.deleteOne({ _id: request.params.id });
+
     response.status(200).json({
       status: "success",
       data: null,
