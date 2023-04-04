@@ -1,3 +1,5 @@
+const BP = require("./models/bp.js");
+
 exports.createBP = (request, response) => {
   try {
     response.status(200).json({
@@ -12,11 +14,13 @@ exports.createBP = (request, response) => {
   }
 };
 
-exports.getBP = (request, response) => {
+exports.getBP = async (request, response) => {
   try {
+    const data = await BP.find({}, { __v: 0 });
+    console.log(data);
     response.status(200).json({
       status: "success",
-      data: null,
+      data: data,
     });
   } catch (error) {
     response.status(404).json({
