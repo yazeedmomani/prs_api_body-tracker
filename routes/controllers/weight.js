@@ -1,10 +1,15 @@
 const Weight = require("./models/weight");
 
-exports.createWeight = (request, response) => {
+exports.createWeight = async (request, response) => {
   try {
+    const data = await Weight.create({
+      date: request.body.date,
+      weight: request.body.weight,
+    });
+
     response.status(200).json({
       status: "success",
-      data: null,
+      data: data,
     });
   } catch (error) {
     response.status(404).json({
@@ -30,8 +35,12 @@ exports.getWeight = async (request, response) => {
   }
 };
 
-exports.deleteWeight = (request, response) => {
+exports.deleteWeight = async (request, response) => {
   try {
+    await Weight.deleteOne({
+      _id: request.params.id,
+    });
+
     response.status(200).json({
       status: "success",
       data: null,
